@@ -102,8 +102,9 @@
     height:100%; width:55%;
     object-fit:cover; object-position:center top;
     z-index:1;
-    mask-image: linear-gradient(to left, rgba(0,0,0,0.95) 40%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.95) 40%, transparent 100%);
+    filter: brightness(1.15) contrast(1.05);
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, transparent 100%);
   }
   #hero::after {
     content:'';
@@ -132,6 +133,7 @@
     border: 0.5px solid var(--border);
     padding: 0.4rem 1rem; border-radius:2px;
     margin-bottom: 2.5rem;
+    white-space: nowrap;
     opacity:0; animation: fadeUp 0.8s 0.2s forwards;
   }
   .hero-badge span { width:6px; height:6px; border-radius:50%; background:var(--orange); animation: pulse 2s infinite; }
