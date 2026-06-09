@@ -108,7 +108,7 @@
   #hero::after {
     content:'';
     position:absolute; inset:0; z-index:2;
-    background: linear-gradient(to right, rgba(8,8,16,0.97) 35%, rgba(8,8,16,0.3) 70%, rgba(8,8,16,0.1) 100%);
+    background: linear-gradient(to right, rgba(8,8,16,1) 40%, rgba(8,8,16,0.75) 65%, rgba(8,8,16,0.2) 100%);
   }
   .video-controls {
     position:absolute; bottom:2rem; right:2rem; z-index:10;
@@ -124,7 +124,7 @@
     transition: background 0.2s;
   }
   .vid-btn:hover { background:rgba(255,107,43,0.4); }
-  .hero-inner { max-width:900px; width:100%; }
+  .hero-inner { max-width:900px; width:100%; position:relative; z-index:5; }
   .hero-badge {
     display:inline-flex; align-items:center; gap:0.5rem;
     font-family: var(--mono);
@@ -462,11 +462,11 @@
 
 <!-- HERO -->
 <section id="hero">
-  <video id="hero-video-bg" autoplay loop muted playsinline>
-    <source src="https://labs.google/fx/api/og-video/shared/35ba222d-f86f-4081-8c00-98a5167edd01" type="video/mp4"/>
+  <video id="hero-video-bg" autoplay loop muted playsinline style="pointer-events:none;">
+    <source src="Woman_talking_at_desk_202606091338.mp4" type="video/mp4"/>
   </video>
   <video id="hero-video-fg" autoplay loop muted playsinline>
-    <source src="https://labs.google/fx/api/og-video/shared/35ba222d-f86f-4081-8c00-98a5167edd01" type="video/mp4"/>
+    <source src="Woman_talking_at_desk_202606091338.mp4" type="video/mp4"/>
   </video>
   <div class="video-controls">
     <button class="vid-btn" id="muteBtn" title="Mute/Unmute">🔇</button>
@@ -876,9 +876,10 @@
 /* ─── VIDEO CONTROLS ─── */
 const fgVid = document.getElementById('hero-video-fg');
 const bgVid = document.getElementById('hero-video-bg');
+bgVid.muted = true; // bg always muted to prevent double audio
 document.getElementById('muteBtn').addEventListener('click', function(){
   const muted = !fgVid.muted;
-  fgVid.muted = muted; bgVid.muted = muted;
+  fgVid.muted = muted;
   this.textContent = muted ? '🔇' : '🔊';
 });
 document.getElementById('pauseBtn').addEventListener('click', function(){
