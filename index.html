@@ -83,13 +83,47 @@
   }
   .nav-cta:hover { background: var(--orange); color:#000; }
 
-  /* ─── HERO ─── */
+  /* ─── VIDEO HERO ─── */
   #hero {
     min-height: 100vh;
     display:flex; align-items:center; justify-content:center;
     padding: 8rem 4rem 4rem;
     position:relative;
+    overflow:hidden;
   }
+  #hero-video-bg {
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; z-index:0;
+    filter: blur(12px) brightness(0.35) saturate(1.2);
+    transform: scale(1.08);
+  }
+  #hero-video-fg {
+    position:absolute; right:0; bottom:0; top:0;
+    height:100%; width:55%;
+    object-fit:cover; object-position:center top;
+    z-index:1;
+    mask-image: linear-gradient(to left, rgba(0,0,0,0.95) 40%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.95) 40%, transparent 100%);
+  }
+  #hero::after {
+    content:'';
+    position:absolute; inset:0; z-index:2;
+    background: linear-gradient(to right, rgba(8,8,16,0.97) 35%, rgba(8,8,16,0.3) 70%, rgba(8,8,16,0.1) 100%);
+  }
+  .video-controls {
+    position:absolute; bottom:2rem; right:2rem; z-index:10;
+    display:flex; gap:0.6rem;
+  }
+  .vid-btn {
+    width:40px; height:40px; border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    border:0.5px solid rgba(255,255,255,0.2);
+    color:white; font-size:1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: background 0.2s;
+  }
+  .vid-btn:hover { background:rgba(255,107,43,0.4); }
   .hero-inner { max-width:900px; width:100%; }
   .hero-badge {
     display:inline-flex; align-items:center; gap:0.5rem;
@@ -428,6 +462,16 @@
 
 <!-- HERO -->
 <section id="hero">
+  <video id="hero-video-bg" autoplay loop muted playsinline>
+    <source src="https://labs.google/fx/api/og-video/shared/35ba222d-f86f-4081-8c00-98a5167edd01" type="video/mp4"/>
+  </video>
+  <video id="hero-video-fg" autoplay loop muted playsinline>
+    <source src="https://labs.google/fx/api/og-video/shared/35ba222d-f86f-4081-8c00-98a5167edd01" type="video/mp4"/>
+  </video>
+  <div class="video-controls">
+    <button class="vid-btn" id="muteBtn" title="Mute/Unmute">🔇</button>
+    <button class="vid-btn" id="pauseBtn" title="Play/Pause">⏸</button>
+  </div>
   <div class="hero-inner">
     <div class="hero-badge">
       <span></span>
@@ -829,6 +873,19 @@
 </footer>
 
 <script>
+/* ─── VIDEO CONTROLS ─── */
+const fgVid = document.getElementById('hero-video-fg');
+const bgVid = document.getElementById('hero-video-bg');
+document.getElementById('muteBtn').addEventListener('click', function(){
+  const muted = !fgVid.muted;
+  fgVid.muted = muted; bgVid.muted = muted;
+  this.textContent = muted ? '🔇' : '🔊';
+});
+document.getElementById('pauseBtn').addEventListener('click', function(){
+  if(fgVid.paused){ fgVid.play(); bgVid.play(); this.textContent='⏸'; }
+  else { fgVid.pause(); bgVid.pause(); this.textContent='▶️'; }
+});
+
 /* ─── PARTICLE CANVAS ─── */
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
